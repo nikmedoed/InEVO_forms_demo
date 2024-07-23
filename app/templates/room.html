@@ -8,36 +8,17 @@
         socket = new WebSocket(`ws://${window.location.host}/ws/${roomId}`);
         socket.onmessage = function(event) {
             const data = JSON.parse(event.data);
-            document.getElementById("data1").value = data.data1 || "";
-            document.getElementById("data2").value = data.data2 || "";
-            document.getElementById("data3").value = data.data3 || "";
+            document.getElementById("participants").innerHTML = data.participants.map(participant => `
+                <li class="list-group-item">${participant.name}: ${participant.about}</li>
+            `).join('');
         };
     };
-
-    function updateData() {
-        const data = {
-            data1: document.getElementById("data1").value,
-            data2: document.getElementById("data2").value,
-            data3: document.getElementById("data3").value
-        };
-        socket.send(JSON.stringify(data));
-    }
 </script>
 {% endblock %}
 
 {% block content %}
 <a href="/" class="btn btn-secondary mb-3">Back to room list</a>
 <h1>Room: {{ room.name }}</h1>
-<div class="form-group">
-    <label for="data1">Data 1</label>
-    <input id="data1" type="text" class="form-control" placeholder="Data 1" oninput="updateData()">
-</div>
-<div class="form-group">
-    <label for="data2">Data 2</label>
-    <input id="data2" type="text" class="form-control" placeholder="Data 2" oninput="updateData()">
-</div>
-<div class="form-group">
-    <label for="data3">Data 3</label>
-    <input id="data3" type="text" class="form-control" placeholder="Data 3" oninput="updateData()">
-</div>
+<h2>Participants</h2>
+<ul id="participants" class="list-group"></ul>
 {% endblock %}

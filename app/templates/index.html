@@ -4,16 +4,15 @@
 <script>
     function createRoom() {
         const roomName = document.getElementById("roomName").value;
+        const formData = new FormData();
+        formData.append("name", roomName);
         fetch("/rooms/", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({name: roomName})
+            body: formData
         })
         .then(response => response.json())
         .then(data => {
-            window.location.href = `/rooms/${data.id}`;
+            window.location.href = `/rooms/${data.id}/case`;
         });
     }
 </script>
@@ -29,7 +28,7 @@
 </div>
 <ul class="list-group">
     {% for room in rooms %}
-        <li class="list-group-item"><a href="/rooms/{{ room.id }}">{{ room.name }}</a></li>
+    <li class="list-group-item"><a href="/rooms/{{ room.id }}/join">{{ room.name }}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}
