@@ -21,7 +21,7 @@
 <h1>Комната: {{ room.name }}</h1>
 <h2>Участники</h2>
 <ul id="participants" class="list-group"></ul>
-<form action="/rooms/{{ room_id }}/next" method="post">
+<form action="/rooms/{{ room_id }}/next_formalization" method="post">
     <button type="submit" class="btn btn-primary mt-3">Далее</button>
 </form>
 {% endblock %}
