@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Кейс: {{ room.case }}</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th></th>
+        {% for participant in room.participants %}
+        <th>{{ participant.name }}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Формулировка задачи</td>
+        {% for participant in room.participants %}
+        <td>{{ participant.task_formulation }}</td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <td>Объект обработки</td>
+        {% for participant in room.participants %}
+        <td>{{ participant.object_processing }}</td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <td>Изменяемый параметр</td>
+        {% for participant in room.participants %}
+        <td>{{ participant.changeable_parameter }}</td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <td>Система</td>
+        {% for participant in room.participants %}
+        <td>{{ participant.system }}</td>
+        {% endfor %}
+    </tr>
+    </tbody>
+</table>
+{% endblock %}
