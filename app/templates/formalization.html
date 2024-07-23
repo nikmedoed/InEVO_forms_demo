@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 
 {% block extra_head %}
+<style>
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .table td, .table th {
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+</style>
 <script>
     let socket;
     window.onload = function() {
@@ -24,41 +34,43 @@
 {% endblock %}
 
 {% block content %}
-<h1>Кейс: {{ room.case }}</h1>
-<table class="table">
-    <thead>
-    <tr>
-        <th></th>
-        {% for participant in room.participants %}
-        <th>{{ participant.name }}</th>
-        {% endfor %}
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>Формулировка задачи</td>
-        {% for participant in room.participants %}
-        <td id="task_formulation_{{ participant.id }}">{{ participant.task_formulation }}</td>
-        {% endfor %}
-    </tr>
-    <tr>
-        <td>Объект обработки</td>
-        {% for participant in room.participants %}
-        <td id="object_processing_{{ participant.id }}">{{ participant.object_processing }}</td>
-        {% endfor %}
-    </tr>
-    <tr>
-        <td>Изменяемый параметр</td>
-        {% for participant in room.participants %}
-        <td id="changeable_parameter_{{ participant.id }}">{{ participant.changeable_parameter }}</td>
-        {% endfor %}
-    </tr>
-    <tr>
-        <td>Система</td>
-        {% for participant in room.participants %}
-        <td id="system_{{ participant.id }}">{{ participant.system }}</td>
-        {% endfor %}
-    </tr>
-    </tbody>
-</table>
+<p>Кейс: {{ room.case }}</p>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            {% for participant in room.participants %}
+            <th>{{ participant.name }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Формулировка задачи</td>
+            {% for participant in room.participants %}
+            <td id="task_formulation_{{ participant.id }}">{{ participant.task_formulation }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Объект обработки</td>
+            {% for participant in room.participants %}
+            <td id="object_processing_{{ participant.id }}">{{ participant.object_processing }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Изменяемый параметр</td>
+            {% for participant in room.participants %}
+            <td id="changeable_parameter_{{ participant.id }}">{{ participant.changeable_parameter }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Система</td>
+            {% for participant in room.participants %}
+            <td id="system_{{ participant.id }}">{{ participant.system }}</td>
+            {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+</div>
 {% endblock %}
