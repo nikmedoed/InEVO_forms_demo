@@ -1,5 +1,28 @@
 {% extends "base.html" %}
 
+{% block extra_head %}
+<script>
+    let socket;
+    window.onload = function() {
+        const roomId = "{{ room.id }}";  // Ensure room.id is correctly passed to the template
+        socket = new WebSocket(`ws://${window.location.host}/ws/${roomId}`);
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            if (data.user_id) {
+                console.log("Updating data for user:", data.user_id);
+                document.querySelector(`#task_formulation_${data.user_id}`).innerText = data.task_formulation || "";
+                document.querySelector(`#object_processing_${data.user_id}`).innerText = data.object_processing || "";
+                document.querySelector(`#changeable_parameter_${data.user_id}`).innerText = data.changeable_parameter || "";
+                document.querySelector(`#system_${data.user_id}`).innerText = data.system || "";
+            }
+        };
+        socket.onerror = function(error) {
+            console.error("WebSocket error observed:", error);
+        };
+    };
+</script>
+{% endblock %}
+
 {% block content %}
 <h1>Кейс: {{ room.case }}</h1>
 <table class="table">
@@ -15,25 +38,25 @@
     <tr>
         <td>Формулировка задачи</td>
         {% for participant in room.participants %}
-        <td>{{ participant.task_formulation }}</td>
+        <td id="task_formulation_{{ participant.id }}">{{ participant.task_formulation }}</td>
         {% endfor %}
     </tr>
     <tr>
         <td>Объект обработки</td>
         {% for participant in room.participants %}
-        <td>{{ participant.object_processing }}</td>
+        <td id="object_processing_{{ participant.id }}">{{ participant.object_processing }}</td>
         {% endfor %}
     </tr>
     <tr>
         <td>Изменяемый параметр</td>
         {% for participant in room.participants %}
-        <td>{{ participant.changeable_parameter }}</td>
+        <td id="changeable_parameter_{{ participant.id }}">{{ participant.changeable_parameter }}</td>
         {% endfor %}
     </tr>
     <tr>
         <td>Система</td>
         {% for participant in room.participants %}
-        <td>{{ participant.system }}</td>
+        <td id="system_{{ participant.id }}">{{ participant.system }}</td>
         {% endfor %}
     </tr>
     </tbody>

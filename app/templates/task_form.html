@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+<script>
+    let socket;
+    window.onload = function() {
+        const roomId = "{{ room_id }}";
+        socket = new WebSocket(`ws://${window.location.host}/ws/${roomId}`);
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            if (data.user_id === "{{ user_id }}") {
+                document.getElementById("task_formulation").value = data.task_formulation || "";
+                document.getElementById("object_processing").value = data.object_processing || "";
+                document.getElementById("changeable_parameter").value = data.changeable_parameter || "";
+                document.getElementById("system").value = data.system || "";
+            }
+        };
+
+        // Pre-fill the form with existing data if available
+        const existingData = {{ participant | tojson }};
+        if (existingData) {
+            document.getElementById("task_formulation").value = existingData.task_formulation || "";
+            document.getElementById("object_processing").value = existingData.object_processing || "";
+            document.getElementById("changeable_parameter").value = existingData.changeable_parameter || "";
+            document.getElementById("system").value = existingData.system || "";
+        }
+    };
+
+    function updateData() {
+        const data = {
+            user_id: "{{ user_id }}",
+            task_formulation: document.getElementById("task_formulation").value,
+            object_processing: document.getElementById("object_processing").value,
+            changeable_parameter: document.getElementById("changeable_parameter").value,
+            system: document.getElementById("system").value
+        };
+        socket.send(JSON.stringify(data));
+    }
+
+    function submitForm(event) {
+        event.preventDefault();
+        updateData();
+        setTimeout(() => {
+            window.location.href = `/rooms/{{ room_id }}/formalization`;
+        }, 500);
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<h1>Кейс: {{ case }}</h1>
+<form onsubmit="submitForm(event)">
+    <div class="form-group">
+        <label for="task_formulation">Формулировка задачи</label>
+        <input id="task_formulation" name="task_formulation" type="text" class="form-control" oninput="updateData()" required>
+    </div>
+    <div class="form-group">
+        <label for="object_processing">Объект обработки</label>
+        <input id="object_processing" name="object_processing" type="text" class="form-control" oninput="updateData()" required>
+    </div>
+    <div class="form-group">
+        <label for="changeable_parameter">Изменяемый параметр</label>
+        <input id="changeable_parameter" name="changeable_parameter" type="text" class="form-control" oninput="updateData()" required>
+    </div>
+    <div class="form-group">
+        <label for="system">Система</label>
+        <input id="system" name="system" type="text" class="form-control" oninput="updateData()" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Готово</button>
+</form>
+{% endblock %}
