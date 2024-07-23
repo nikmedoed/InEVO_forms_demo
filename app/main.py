@@ -7,7 +7,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from motor.motor_asyncio import AsyncIOMotorClient
-from pydantic import BaseModel
+from app.models import *
 from starlette.websockets import WebSocketState
 
 app = FastAPI()
