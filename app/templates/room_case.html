@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Provide Case Information</h1>
+<h1>Введите информацию о кейсе</h1>
 <form action="/rooms/{{ room_id }}/case" method="post">
     <div class="form-group">
-        <label for="case">Case Information</label>
+        <label for="case">Информация о кейсе</label>
         <textarea id="case" name="case" class="form-control" required></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
 </form>
 {% endblock %}

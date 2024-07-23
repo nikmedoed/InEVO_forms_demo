@@ -17,8 +17,11 @@
 {% endblock %}
 
 {% block content %}
-<a href="/" class="btn btn-secondary mb-3">Back to room list</a>
-<h1>Room: {{ room.name }}</h1>
-<h2>Participants</h2>
+<a href="/" class="btn btn-secondary mb-3">Назад к списку комнат</a>
+<h1>Комната: {{ room.name }}</h1>
+<h2>Участники</h2>
 <ul id="participants" class="list-group"></ul>
+<form action="/rooms/{{ room_id }}/next" method="post">
+    <button type="submit" class="btn btn-primary mt-3">Далее</button>
+</form>
 {% endblock %}
