@@ -7,4 +7,4 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./mongo:/data/db
+      - E:\clouds\Docker\InEVO_demo\mongo:/data/db
