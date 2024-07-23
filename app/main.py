@@ -53,7 +53,6 @@ async def websocket_endpoint(websocket: WebSocket, room_id: str):
             data = await websocket.receive_json()
             user_id = data.get("user_id")
             if user_id:
-                # Update the participant's data in the room
                 await rooms_collection.update_one(
                     {"_id": room_id, "participants.id": user_id},
                     {"$set": {
@@ -63,8 +62,6 @@ async def websocket_endpoint(websocket: WebSocket, room_id: str):
                         "participants.$.system": data["system"]
                     }}
                 )
-                # Broadcast the updated data
                 await room_manager.broadcast(data, room_id)
     except WebSocketDisconnect:
         room_manager.disconnect(websocket, room_id)
-

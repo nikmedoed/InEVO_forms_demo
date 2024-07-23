@@ -4,7 +4,7 @@
 <script>
     let socket;
     window.onload = function() {
-        const roomId = "{{ room.id }}";  // Ensure room.id is correctly passed to the template
+        const roomId = "{{ room._id }}";  // Ensure room._id is correctly passed to the template
         socket = new WebSocket(`ws://${window.location.host}/ws/${roomId}`);
         socket.onmessage = function(event) {
             const data = JSON.parse(event.data);
